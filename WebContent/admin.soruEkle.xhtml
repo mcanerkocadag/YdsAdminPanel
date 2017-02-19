@@ -1,0 +1,204 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"> 
+<html xmlns="http://www.w3.org/1999/xhtml"
+xmlns:jsf="http://xmlns.jcp.org/jsf"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui" > 
+
+<h:head>
+   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		<meta http-equiv="X-UA-Conpatible" content="IE=edge" />
+    <link href="resources/css/bootstrap.min.css" rel="stylesheet"/>
+
+    <!-- Custom CSS -->
+    <link href="resources/css/blog-post.css" rel="stylesheet"/>
+		<link href="resources/css/style.css" rel="stylesheet" type="text/css"/>
+		 <title>YDS</title>
+		 <script type="text/javascript" src="resources/js/bootstrap.min.js"/>
+		 <script type="text/javascript" src="resources/js/jquery-2.1.4.js"/>
+    </h:head>
+    <h:body>
+
+    <!-- Navigation -->
+    <div class="navbar navbar-inverse navbar-fixed-top">
+        <div class="container">
+            <!-- Brand and toggle get grouped for better mobile display -->
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="admin.index.jsf">YDS</a>
+            </div>
+            <!-- Collect the nav links, forms, and other content for toggling -->
+          <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                <ul class="nav navbar-nav">
+                    <li>
+                      <div class="dropdown" style="margin-top: 5px; margin-right:5px;">
+						  <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+						    Sorular
+						    <span class="caret"></span>
+						  </button>
+						  <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
+						    <li><a href="admin.soruEkle.jsf">Ekle</a></li>
+						    <li><a href="admin.soruLS.jsf">Listele/Düzenle/Sil</a></li>
+						  </ul>
+						</div>
+                    </li>
+                    <li>
+						   <div class="dropdown" style="margin-top: 5px; margin-right:5px;">
+						  <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+						    Sınavlar
+						    <span class="caret"></span>
+						  </button>
+						  <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
+						    <li><a href="admin.sinavEkle.jsf">Ekle</a></li>
+						    <li><a href="admin.sinavDS.jsf">Listele/Düzenle/Sil</a></li>
+						  </ul>
+						</div>
+                    </li>
+                    <li>
+                    <div class="dropdown" style="margin-top: 5px; margin-right:5px;">
+                        <a href="admin.kullaniciDS.jsf" >
+						  <button class="btn btn-default dropdown-toggle" type="button" id="kullanicilarLink">
+						    Kullanıcılar
+						  </button>
+						  </a>
+						  </div>
+                    </li>
+                    <li>
+                    <div class="dropdown" style="margin-top: 5px; margin-right:5px;">
+                        <a href="admin.istatistikLS.jsf" >
+						  <button class="btn btn-default dropdown-toggle" type="button" id="istatistiklerLink">
+						    İstatistikler
+						  </button>
+						  </a>
+						  </div>
+                    </li>
+                     <li style="position:fixed; right:1%; ">
+						   <div class="dropdown" style="margin-top: 5px; margin-right:5px;">
+						  <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+						    <span class="glyphicon glyphicon-user" aria-hidden="true"></span>
+						    #{sessionScope.admin}
+						    <span class="caret"></span>
+						  </button>
+						  <ul class="dropdown-menu"  >
+						    <li><p:commandButton  action="admin.profil.jsf?faces-redirect=true" value="Profil" class="btn btn-default dropdown-toggle" style="margin-left:5px;"/></li>
+						    <li><p:commandButton  action="#{dtSelectionView.logout()}" value="Çıkış" class="btn btn-default dropdown-toggle" style="margin-left:5px; margin-top:5px;"/></li>
+						  </ul>
+						</div>
+                    </li>
+                    <p:growl id="messages" sticky="true" showDetail="true"/>
+                </ul>
+            </div>
+            <!-- /.navbar-collapse -->
+        </div>
+        <!-- /.container -->
+    </div>
+
+
+
+    <!-- Page Content -->
+    <div class="container">
+
+        <div class="row">
+
+            <!-- Blog Post Content Column -->
+            <div class="col-lg-8">
+            <h:form>
+           
+            <p:messages />
+            
+            <h:panelGrid class="col-md-12" columns="2" cellpadding="5">
+            <p:outputLabel value="Soru Tipi:"/>
+   <p:selectOneMenu id="qustiontype" value="#{qtSelectionView.model.questionType}" style="width:175px; margin-right:20px;">
+                <f:selectItem itemLabel="Soru Tipini Seçiniz!" itemValue="" noSelectionOption="true" />
+                <f:selectItems value="#{qtSelectionView.questionTypeList()}" />
+            </p:selectOneMenu>
+            
+            <p:outputLabel value="İçerik:"/>
+			  <p:inputTextarea value="#{qtSelectionView.model.content}" rows="8" cols="80" queryDelay="750" minQueryLength="4" />
+			  <p:outputLabel value="Soru:"/>
+			  <p:inputTextarea value="#{qtSelectionView.model.question}" rows="8" cols="80" queryDelay="750" minQueryLength="4" />
+			  
+  <p:outputLabel value="A:"/>
+  <p:inputTextarea value="#{qtSelectionView.model.a}" rows="8" cols="80" queryDelay="750" minQueryLength="4" />
+  <p:outputLabel value="B:"/>
+  <p:inputTextarea value="#{qtSelectionView.model.b}" rows="8" cols="80" queryDelay="750" minQueryLength="4" />
+  <p:outputLabel value="C:"/>
+  <p:inputTextarea value="#{qtSelectionView.model.c}" rows="8" cols="80" queryDelay="750" minQueryLength="4" />
+  <p:outputLabel value="D:"/>
+  <p:inputTextarea value="#{qtSelectionView.model.d}" rows="8" cols="80" queryDelay="750" minQueryLength="4" />
+  <p:outputLabel value="E:"/>
+  <p:inputTextarea value="#{qtSelectionView.model.e}" rows="8" cols="80" queryDelay="750" minQueryLength="4" />
+  
+  
+   <p:outputLabel value="Cevap:"/>
+  <p:inputText value="#{qtSelectionView.model.answer}" id="ans" type="text" class="form-control" />
+   <p:outputLabel value="Durum:"/>
+  <p:inputText value="#{qtSelectionView.model.status}" id="stat" type="text" class="form-control" />
+  <h:commandButton id="submitButton" value="Ekle" action="#{qtSelectionView.registerQuestion()}" update="messages"/>
+  </h:panelGrid>
+  
+  </h:form>
+            </div>
+
+            <!-- Blog Sidebar Widgets Column -->
+            <div class="col-md-4">
+<h:form class="col-lg-12" style="margin-top:0px;"> 
+    <p:dataScroller value="#{stSelectionView.listStatistics()}" var="StatisticsModel" chunkSize="10" class="col-lg-12">
+        <f:facet name="header">
+            İstatistikler
+        </f:facet>
+ 
+        <h:panelGrid columns="2" style="width:100%; margin-top:10px;" columnClasses="logo,detail">
+            <p:outputPanel class="col-lg-12">
+                <h:panelGrid columns="2" cellpadding="5">
+             
+                 <h:outputText  value="Id:" style="font-weight: bold;"/>
+                    <h:outputText  value="  #{StatisticsModel.idstatistics}" style=" margin-left:10px;"/>
+                     <h:outputText  value="Kullanıcı Adı:" style="font-weight: bold"/>
+                    <h:outputText  value="  #{StatisticsModel.username}" style=" margin-left:10px;"/>
+                    <h:outputText  value="Sınav Adı:" style="font-weight: bold"/>
+                    <h:outputText  value="  #{StatisticsModel.examname}" style=" margin-left:10px;" />
+ 					 <h:outputText  value="Dogru Sayısı:" style="font-weight: bold"/>
+                    <h:outputText  value="  #{StatisticsModel.dogru}" style=" margin-left:10px;"/>
+                   
+                </h:panelGrid>
+                <p:separator />
+            </p:outputPanel >
+        </h:panelGrid>
+    </p:dataScroller>
+</h:form>
+
+            </div>
+
+        </div>
+        <!-- /.row -->
+
+        <!-- Footer -->
+        <footer>
+            <div class="row">
+                <div class="col-lg-12">
+                     <p>MCH &copy; YDS Website 2016</p>
+                </div>
+            </div>
+            <!-- /.row -->
+        </footer>
+
+    </div>
+    <!-- /.container -->
+
+    <!-- jQuery -->
+    <script src="js/jquery.js"></script>
+
+    <!-- Bootstrap Core JavaScript -->
+    <script src="js/bootstrap.min.js"></script>
+
+</h:body>
+
+</html>

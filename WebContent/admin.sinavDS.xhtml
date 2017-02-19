@@ -1,0 +1,285 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"> 
+<html xmlns="http://www.w3.org/1999/xhtml"
+xmlns:jsf="http://xmlns.jcp.org/jsf"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui" > 
+
+<h:head>
+   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		<meta http-equiv="X-UA-Conpatible" content="IE=edge" />
+    <link href="resources/css/bootstrap.min.css" rel="stylesheet"/>
+
+    <!-- Custom CSS -->
+    <link href="resources/css/blog-post.css" rel="stylesheet"/>
+		<link href="resources/css/style.css" rel="stylesheet" type="text/css"/>
+		 <title>YDS</title>
+		 <script type="text/javascript" src="resources/js/bootstrap.min.js"/>
+		 <script type="text/javascript" src="resources/js/jquery-2.1.4.js"/>
+    </h:head>
+    <h:body>
+
+    <!-- Navigation -->
+    <div class="navbar navbar-inverse navbar-fixed-top">
+        <div class="container">
+            <!-- Brand and toggle get grouped for better mobile display -->
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="admin.index.jsf">YDS</a>
+            </div>
+            <!-- Collect the nav links, forms, and other content for toggling -->
+          <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                <ul class="nav navbar-nav">
+                    <li>
+                      <div class="dropdown" style="margin-top: 5px; margin-right:5px;">
+						  <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+						    Sorular
+						    <span class="caret"></span>
+						  </button>
+						  <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
+						    <li><a href="admin.soruEkle.jsf">Ekle</a></li>
+						    <li><a href="admin.soruLS.jsf">Listele/Düzenle/Sil</a></li>
+						  </ul>
+						</div>
+                    </li>
+                    <li>
+						   <div class="dropdown" style="margin-top: 5px; margin-right:5px;">
+						  <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+						    Sınavlar
+						    <span class="caret"></span>
+						  </button>
+						  <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
+						    <li><a href="admin.sinavEkle.jsf">Ekle</a></li>
+						    <li><a href="admin.sinavDS.jsf">Listele/Düzenle/Sil</a></li>
+						  </ul>
+						</div>
+                    </li>
+                    <li>
+                    <div class="dropdown" style="margin-top: 5px; margin-right:5px;">
+                        <a href="admin.kullaniciDS.jsf" >
+						  <button class="btn btn-default dropdown-toggle" type="button" id="kullanicilarLink">
+						    Kullanıcılar
+						  </button>
+						  </a>
+						  </div>
+                    </li>
+                    <li>
+                    <div class="dropdown" style="margin-top: 5px; margin-right:5px;">
+                        <a href="admin.istatistikLS.jsf" >
+						  <button class="btn btn-default dropdown-toggle" type="button" id="istatistiklerLink">
+						    İstatistikler
+						  </button>
+						  </a>
+						  </div>
+                    </li>
+                    <li style="position:fixed; right:1%; ">
+						   <div class="dropdown" style="margin-top: 5px; margin-right:5px;">
+						  <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+						    <span class="glyphicon glyphicon-user" aria-hidden="true"></span>
+						    #{sessionScope.admin}
+						    <span class="caret"></span>
+						  </button>
+						  <ul class="dropdown-menu"  >
+						    <li><p:commandButton  action="admin.profil.jsf?faces-redirect=true" value="Profil" class="btn btn-default dropdown-toggle" style="margin-left:5px;"/></li>
+						    <li><p:commandButton  action="#{dtSelectionView.logout()}" value="Çıkış" class="btn btn-default dropdown-toggle" style="margin-left:5px; margin-top:5px;"/></li>
+						  </ul>
+						</div>
+                    </li>
+                    <p:growl id="messages" sticky="true" showDetail="true"/>
+                </ul>
+            </div>
+            <!-- /.navbar-collapse -->
+        </div>
+        <!-- /.container -->
+    </div>
+
+
+
+    <!-- Page Content -->
+    <div class="container">
+
+        <div class="row">
+
+            <!-- Blog Post Content Column -->
+            <div class="col-md-8">
+            <h:form>
+            <h:panelGrid class="col-lg-12" columns="2" cellpadding="5">
+             <p:outputLabel value="Sınav Id:"/>
+  			<p:inputText value="#{etSelectionView.secilenId}" id="exid" type="text" class="form-control" />
+  			<p:outputLabel value="Sınav Adı:"/>
+  			<p:inputText value="#{etSelectionView.secilenAd}" id="exn" type="text" class="form-control" />
+  			<p:commandButton id="submitButtonn" value="Listele" update=":form:sinavTablo" action="#{etSelectionView.init()}"/>
+  </h:panelGrid>
+  
+  
+  			</h:form>
+  
+  <h:form class="col-lg-12" style="margin-top:20px;" id="form"> 
+
+  <p:messages />
+     <p:dataScroller value="#{etSelectionView.exams}" var="ListExamModel" chunkSize="10" class="col-lg-12" id="sinavTablo">
+        <f:facet name="header">
+            Sınavlar
+        </f:facet>
+ 
+        <h:panelGrid columns="2" style="width:100%; margin-top:10px;" columnClasses="logo,detail">
+            <p:outputPanel class="col-lg-12">
+                <h:panelGrid columns="2" cellpadding="5">
+                 <h:outputText  value="Id:" style="font-weight: bold"/>
+                    <h:outputText  value="#{ListExamModel.idexam}" />
+                   
+                     <h:outputText  value="Sınav Adı:" style="font-weight: bold"/>
+                    <h:outputText  value="#{ListExamModel.name}"/>
+                    <h:outputText  value="Kelime Bilgisi:" style="font-weight: bold"/>
+                    <h:outputText  value="#{ListExamModel.kelimeBilgisi}"/>
+                    <h:outputText  value="Dil Bilgisi:" style="font-weight: bold"/>
+                    <h:outputText  value="#{ListExamModel.dilBilgisi}"/>
+                    <h:outputText  value="ClozeTest:" style="font-weight: bold"/>
+                    <h:outputText  value="#{ListExamModel.clozeTest}"/>
+                    <h:outputText  value="Cümle Tamamlama:" style="font-weight: bold"/>
+                    <h:outputText  value="#{ListExamModel.cumleTam}" />
+                    <h:outputText  value="İngilizce-Türkçe Çeviri:" style="font-weight: bold"/>
+                    <h:outputText  value="#{ListExamModel.ingTur}" />
+                    <h:outputText  value="Türkçe-İngilizce Çeviri:" style="font-weight: bold"/>
+                    <h:outputText  value="#{ListExamModel.turIng}" />
+                    <h:outputText  value="Okuma Parçaları:" style="font-weight: bold"/>
+                    <h:outputText  value="#{ListExamModel.okumaParca}" />
+                    <h:outputText  value="Diyalog Tamamlama:" style="font-weight: bold"/>
+                    <h:outputText  value="#{ListExamModel.diyalogTam}" />
+                    <h:outputText  value="Anlamca En Yakın Cümleyi Bulma:" style="font-weight: bold"/>
+                    <h:outputText  value="#{ListExamModel.enYakin}" />
+                    <h:outputText  value="Paragraf Tamamlama:" style="font-weight: bold"/>
+                    <h:outputText  value="#{ListExamModel.paragrafTam}" />
+                    <h:outputText  value="Anlam Bütünlüğünü Bozan Cümle:" style="font-weight: bold"/>
+                    <h:outputText  value="#{ListExamModel.anlamBozan}" />
+                    
+                    <h:outputText  value="Sınav Tarihi:" style="font-weight: bold"/>
+                    <h:outputText  value="#{ListExamModel.status}" />
+                     <p:commandButton update=":form:examDetail :form:sinavTablo" oncomplete="PF('examDialog').show()" value="Düzenle" icon="ui-icon-pencil" title="Edit">
+                <f:setPropertyActionListener value="#{ListExamModel}" target="#{etSelectionView.selectedExam}" />
+            </p:commandButton>
+             <p:commandButton update=":form:sinavTablo" action="#{etSelectionView.delete()}" value="Sil" icon="ui-icon-trash" title="Delete">
+                <f:setPropertyActionListener value="#{ListExamModel}" target="#{etSelectionView.selectedExam}" />
+            </p:commandButton>
+                </h:panelGrid>
+                <p:separator />
+            </p:outputPanel >
+             
+        </h:panelGrid>
+    </p:dataScroller>
+       <p:dialog header="Exam Info" widgetVar="examDialog" modal="true" showEffect="blind" hideEffect="explode" resizable="true" height="450">
+        <p:messages />
+        <p:outputPanel id="examDetail" style="text-align:center;">
+            <p:panelGrid  columns="2" rendered="#{not empty etSelectionView.selectedExam}" columnClasses="label,value">
+                
+ 
+                <h:outputText value="Id:" style="color:#d15353; font-weight: bold;" />
+                <h:outputText value="#{etSelectionView.selectedExam.idexam}" style="font-weight: bold;"/>
+ 
+                <h:outputText value="Sınav Adı"  style="color:#d15353; font-weight: bold;"/>
+                <h:inputText value="#{etSelectionView.selectedExam.name}" style="font-weight: bold;"/>
+ 
+                <h:outputText value="Kelime Bilgisi:" style="color:#d15353; font-weight: bold;"/>
+                <h:inputText value="#{etSelectionView.selectedExam.kelimeBilgisi}" style="font-weight: bold;"/>
+                
+                 <h:outputText value="Dil Bilgisi:" style="color:#d15353; font-weight: bold;"/>
+                <h:inputText value="#{etSelectionView.selectedExam.dilBilgisi}" style="font-weight: bold;"/>
+                
+                 <h:outputText value="ClozeTest:" style="color:#d15353; font-weight: bold;"/>
+                <h:inputText value="#{etSelectionView.selectedExam.clozeTest}" style="font-weight: bold;"/>
+                
+                 <h:outputText value="Cümle Tamamlama:" style="color:#d15353; font-weight: bold;"/>
+                <h:inputText value="#{etSelectionView.selectedExam.cumleTam}" style="font-weight: bold;"/>
+                
+                 <h:outputText value="İngilizce-Türkçe Çeviri:" style="color:#d15353; font-weight: bold;"/>
+                <h:inputText value="#{etSelectionView.selectedExam.ingTur}" style="font-weight: bold;"/>
+                
+                 <h:outputText value="Türkçe-İngilizce Çeviri:" style="color:#d15353; font-weight: bold;"/>
+                <h:inputText value="#{etSelectionView.selectedExam.turIng}" style="font-weight: bold;"/>
+                
+                 <h:outputText value="Okuma Parçaları:" style="color:#d15353; font-weight: bold;"/>
+                <h:inputText value="#{etSelectionView.selectedExam.okumaParca}" style="font-weight: bold;"/>
+                
+                 <h:outputText value="Diyalog Tamamlama:" style="color:#d15353; font-weight: bold;"/>
+                <h:inputText value="#{etSelectionView.selectedExam.diyalogTam}" style="font-weight: bold;"/>
+                
+                 <h:outputText value="Anlamca En Yakın Cümleyi Bulma:" style="color:#d15353; font-weight: bold;"/>
+                <h:inputText value="#{etSelectionView.selectedExam.enYakin}" style="font-weight: bold;"/>
+				
+				  <h:outputText value="Paragraf Tamamlama:" style="color:#d15353; font-weight: bold;"/>
+                <h:inputText value="#{etSelectionView.selectedExam.paragrafTam}" style="font-weight: bold;"/>
+				
+				  <h:outputText value="Anlam Bütünlüğünü Bozan Cümle:" style="color:#d15353; font-weight: bold;"/>
+                <h:inputText value="#{etSelectionView.selectedExam.anlamBozan}" style="font-weight: bold;"/>
+ 
+				<h:outputText value="Sınav Tarihi" style="color:#d15353; font-weight: bold;"/>
+                <p:calendar id="datetime" value="#{etSelectionView.selectedExam.listDate}" pattern="dd/MM/yyyy HH:mm" effect="fold"/>
+               
+            </p:panelGrid>
+             <p:commandButton oncomplete="PF('examDialog').hide()" update=":form:sinavTablo messages" value="Güncelle" action="#{etSelectionView.update()}"/>
+        </p:outputPanel>
+    </p:dialog>
+</h:form>
+            </div>
+
+            <!-- Blog Sidebar Widgets Column -->
+            <div class="col-md-4">
+<h:form class="col-lg-12" style="margin-top:0px;"> 
+    <p:dataScroller value="#{stSelectionView.listStatistics()}" var="StatisticsModel" chunkSize="10" class="col-lg-12">
+        <f:facet name="header">
+            İstatistikler
+        </f:facet>
+ 
+        <h:panelGrid columns="2" style="width:100%; margin-top:10px;" columnClasses="logo,detail">
+            <p:outputPanel class="col-lg-12">
+                <h:panelGrid columns="2" cellpadding="5">
+             
+                 <h:outputText  value="Id:" style="font-weight: bold;"/>
+                    <h:outputText  value="  #{StatisticsModel.idstatistics}" style=" margin-left:10px;"/>
+                     <h:outputText  value="Kullanıcı Adı:" style="font-weight: bold"/>
+                    <h:outputText  value="  #{StatisticsModel.username}" style=" margin-left:10px;"/>
+                    <h:outputText  value="Sınav Adı:" style="font-weight: bold"/>
+                    <h:outputText  value="  #{StatisticsModel.examname}" style=" margin-left:10px;" />
+ 					 <h:outputText  value="Dogru Sayısı:" style="font-weight: bold"/>
+                    <h:outputText  value="  #{StatisticsModel.dogru}" style=" margin-left:10px;"/>
+                   
+                </h:panelGrid>
+                <p:separator />
+            </p:outputPanel >
+        </h:panelGrid>
+    </p:dataScroller>
+</h:form>
+            </div>
+
+        </div>
+        <!-- /.row -->
+
+        <!-- Footer -->
+        <footer>
+            <div class="row">
+                <div class="col-lg-12">
+                     <p>MCH &copy; YDS Website 2016</p>
+                </div>
+            </div>
+            <!-- /.row -->
+        </footer>
+
+    </div>
+    <!-- /.container -->
+
+    <!-- jQuery -->
+    <script src="js/jquery.js"></script>
+
+    <!-- Bootstrap Core JavaScript -->
+    <script src="js/bootstrap.min.js"></script>
+
+</h:body>
+
+</html>
